@@ -1,4 +1,4 @@
-// exiao from TongJi Universoty All Rights Reserved.
+// Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "AnimalWell.h"
 #include "Modules/ModuleManager.h"
