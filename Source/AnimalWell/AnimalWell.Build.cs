@@ -1,4 +1,4 @@
-// exiao from TongJi Universoty All Rights Reserved.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 using UnrealBuildTool;
 
@@ -12,10 +12,8 @@ public class AnimalWell : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
-        PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
-
         // Uncomment if you are using Slate UI
-        // PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
+        PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 
         // Uncomment if you are using online features
         // PrivateDependencyModuleNames.Add("OnlineSubsystem");
