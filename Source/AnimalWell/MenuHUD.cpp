@@ -50,7 +50,7 @@ void AMenuHUD::SetScreenBrightness(float NewBrightness)
 		return;
 	}
 
-	// 遍历场景中的所有后处理卷并修改 AutoExposureBias（运行时生效）
+	//遍历场景中的所有后处理卷并修改 AutoExposureBias（运行时生效）
 	for (TActorIterator<APostProcessVolume> It(World); It; ++It)
 	{
 		APostProcessVolume* PPV = *It;

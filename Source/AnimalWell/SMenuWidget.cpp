@@ -33,12 +33,12 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 	FSlateFontInfo TitleTextStyle = ButtonTextStyle;
 	TitleTextStyle.Size = 60.0f;	//标题字体大小
 
-	// 构造键位列表内容（提前构建）
+	//构造键位列表内容（提前构建）
 	TSharedRef<SVerticalBox> KeysBox = SNew(SVerticalBox);
 	const UInputSettings* InputSettings = GetDefault<UInputSettings>();
 	if (InputSettings)
 	{
-		// 显示动作映射列表
+		//显示动作映射列表
 		KeysBox->AddSlot().AutoHeight()[ SNew(STextBlock).Text(LOCTEXT("KeyBindingsLabel", "Key Bindings:")) ];
 		for (const FInputActionKeyMapping& Mapping : InputSettings->GetActionMappings())
 		{
@@ -49,10 +49,10 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 
 	ChildSlot
 	[
-		// 保存顶层 overlay 到 RootOverlay，之后可以继续向其添加槽
+		//保存顶层 overlay 到 RootOverlay，之后可以继续向其添加槽
 		SAssignNew(RootOverlay, SOverlay)
 
-		// 背景
+		//背景
 		+ SOverlay::Slot()
 		.HAlign(HAlign_Fill)
 		.VAlign(VAlign_Fill)
@@ -61,7 +61,7 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 			.ColorAndOpacity(FColor::Black)
 		]
 
-		// 主面板（当显示设置时隐藏主面板）
+		//主面板（当显示设置时隐藏主面板）
 		+ SOverlay::Slot()
 		.HAlign(HAlign_Fill)
 		.VAlign(VAlign_Fill)
@@ -72,7 +72,7 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 			[
 				SNew(SVerticalBox)
 
-				// 标题
+				//标题
 				+ SVerticalBox::Slot()
 				[
 					SNew(STextBlock)
@@ -81,7 +81,7 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 					.Justification(ETextJustify::Center)
 				]
 
-				// 开始
+				//开始
 				+ SVerticalBox::Slot()
 				.Padding(ButtonPadding)
 				[
@@ -95,7 +95,7 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 					]
 				]
 
-				// 设置（切换到设置面板）
+				//设置（切换到设置面板）
 				+ SVerticalBox::Slot()
 				.Padding(ButtonPadding)
 				[
@@ -109,7 +109,7 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 					]
 				]
 
-				// 退出
+				//退出
 				+ SVerticalBox::Slot()
 				.Padding(ButtonPadding)
 				[
@@ -125,7 +125,7 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 			]
 		]
 
-		// 设置面板（覆盖主面板）
+		//设置面板（覆盖主面板）
 		+ SOverlay::Slot()
 		.HAlign(HAlign_Center)
 		.VAlign(VAlign_Center)
@@ -140,7 +140,7 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 				[
 					SNew(SVerticalBox)
 
-					// 面板标题
+					//面板标题
 					+ SVerticalBox::Slot()
 					.AutoHeight()
 					[
@@ -150,7 +150,7 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 						.Justification(ETextJustify::Center)
 					]
 
-					// 亮度标签
+					//亮度标签
 					+ SVerticalBox::Slot()
 					.AutoHeight()
 					.Padding(FMargin(0,20,0,10))
@@ -159,7 +159,7 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 						.Text(LOCTEXT("BrightnessLabel", "Brightness"))
 					]
 
-					// 亮度滑块（初始值从 HUD 读取，如无 HUD 则 1.0）
+					//亮度滑块（初始值从 HUD 读取，如无 HUD 则 1.0）
 					+ SVerticalBox::Slot()
 					.AutoHeight()
 					.Padding(FMargin(0,0,0,10))
@@ -169,7 +169,7 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 						.OnValueChanged(this, &SMenuWidget::OnBrightnessChanged)
 					]
 
-					// 键位滚动区（把预先构造的 KeysBox 放进来）
+					//键位滚动区（把预先构造的 KeysBox 放进来）
 					+ SVerticalBox::Slot()
 					.FillHeight(1.0f)
 					.Padding(FMargin(0,10,0,10))
@@ -181,7 +181,7 @@ void SMenuWidget::Construct(const FArguments& InArgs)
 						]
 					]
 
-					// 返回按钮（返回主菜单）
+					//返回按钮（返回主菜单）
 					+ SVerticalBox::Slot()
 					.AutoHeight()
 					.HAlign(HAlign_Right)
@@ -209,14 +209,14 @@ FReply SMenuWidget::OnPlayClicked() const
 
 FReply SMenuWidget::OnSettingsClicked()
 {
-	// 模仿 Start/Quit 的显示/隐藏操作：显示设置并隐藏主菜单
+	//模仿 Start/Quit 的显示/隐藏操作：显示设置并隐藏主菜单
 	bShowingSettings = true;
 	return FReply::Handled();
 }
 
 void SMenuWidget::OnBrightnessChanged(float NewValue)
 {
-	// 滑块值为 [0..1]，映射到亮度 [0..2]
+	//滑块值为 [0..1]，映射到亮度 [0..2]
 	const float Brightness = FMath::Clamp(NewValue * 2.0f, 0.0f, 2.0f);
 	if (OwningHUD.IsValid())
 	{

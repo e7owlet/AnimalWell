@@ -28,10 +28,10 @@ public:
 
 	TWeakObjectPtr<class AMenuHUD> OwningHUD;	//存储传进来的AMenuHUD
 
-	// 是否正在显示设置面板
+	//是否正在显示设置面板
 	bool bShowingSettings = false;
 
-	// 保存顶层 Overlay 的引用（便于构造后操作）
+	//保存顶层 Overlay 的引用（便于构造后操作）
 	TSharedPtr<class SOverlay> RootOverlay;
 
 	virtual bool SupportsKeyboardFocus() const override
