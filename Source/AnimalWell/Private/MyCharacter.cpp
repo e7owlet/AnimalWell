@@ -7,7 +7,6 @@
 #include "CharacterGameComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "Prop/Components/InteractionPropComponent.h"
 
 // Sets default values
 
@@ -29,8 +28,7 @@ AMyCharacter::AMyCharacter()
 	SceneComponent->SetupAttachment(RootComponent);
 
 	CharacterGameComponent = CreateDefaultSubobject<UCharacterGameComponent>(TEXT("Character"));
-	InteractionPropComp = CreateDefaultSubobject<UInteractionPropComponent>(TEXT("InteractionPropComp0"));
-	InteractionPropComp->SetupAttachment(RootComponent);
+
 }
 
 // Called when the game starts or when spawned

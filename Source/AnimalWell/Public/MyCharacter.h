@@ -64,7 +64,6 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "MyCharacter|Actor Component")
 	class USpringArmComponent* SpringArmComponent;
 
-	class UInteractionPropComponent * InteractionPropComp;
 	//相机组件视角跟随
 	UPROPERTY(VisibleAnywhere, Category = "MyCharacter|Actor Component")
 	class UCameraComponent* CameraComponent;
