@@ -9,6 +9,7 @@
 #include "Prop/Actors/BasePropActor.h"
 #include "Prop/Actors/FirecrackerActor.h"
 #include "Prop/Actors/LightActor.h"
+#include "Prop/Actors/ToggerActor.h"
 
 // Sets default values for this component's properties
 UInteractionPropComponent::UInteractionPropComponent()
@@ -36,6 +37,7 @@ void UInteractionPropComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	TracePropForword();
 	TracePropBack();
 	BindKeyDownEvent();
+	TracePropToggle();
 }
 
 void UInteractionPropComponent::TracePropForword()
@@ -86,6 +88,36 @@ void UInteractionPropComponent::TracePropBack()
 		}
 	}
 }
+
+void UInteractionPropComponent::TracePropToggle()
+{
+	TArray<FHitResult> OutHits;
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(CharacterInstance);
+	FVector StartLocation = 
+		CharacterInstance->GetActorLocation();
+	FVector EndLocation = 
+		StartLocation + CharacterInstance->GetActorUpVector()*-100.f;
+	GetWorld()->LineTraceMultiByChannel(OutHits,StartLocation,EndLocation,ECollisionChannel::ECC_GameTraceChannel1,Params);
+	
+	for (FHitResult &HitResult : OutHits)
+	{
+		if (!HitResult.bBlockingHit) 
+			return;
+		
+		AToggerActor* Togger = Cast<AToggerActor>(HitResult.GetActor());
+		if (Togger)
+		{
+		
+			//FVector Location = Light->GetActorLocation()-CharacterInstance->GetActorLocation().Normalize();
+			Togger->ActionEvent();
+		}
+	}
+}
+
+
+
+
 
 void UInteractionPropComponent::BindKeyDownEvent()
 {

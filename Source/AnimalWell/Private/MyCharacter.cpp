@@ -8,6 +8,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Prop/Components/InteractionPropComponent.h"
+#include "Viewports/SDepthBar.h"
 
 // Sets default values
 
@@ -24,6 +25,8 @@ AMyCharacter::AMyCharacter()
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(SpringArmComponent);
+	CameraComponent->SetProjectionMode(ECameraProjectionMode::Orthographic);
+	CameraComponent->SetOrthoWidth(300.f);
 
 	SceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Scene"));
 	SceneComponent->SetupAttachment(RootComponent);

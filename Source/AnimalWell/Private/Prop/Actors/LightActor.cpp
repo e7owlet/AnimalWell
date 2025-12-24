@@ -51,7 +51,7 @@ void ALightActor::Tick(float DeltaTime)
 				{
 					UStaticMeshComponent* MeshComponent = MaskActor->GetStaticMeshComponent();
 					FVector LightPosion = LightSpriteComp->GetComponentLocation();
-					MeshComponent->SetVectorParameterValueOnMaterials(TEXT("LightPosition"),LightPosion);
+					MeshComponent->SetVectorParameterValueOnMaterials(MName,LightPosion);
 				}
 			}
 		}

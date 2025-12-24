@@ -12,6 +12,7 @@ ADoorActor::ADoorActor()
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComp0"));
 	DoorSpriteComp = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("DoorSpriteComp0"));
 	DoorSpriteComp->SetupAttachment(RootComponent);
+	DoorSpriteComp->SetCollisionProfileName(TEXT("BlockAll"));
 }
 
 void ADoorActor::BeginPlay()
@@ -33,6 +34,7 @@ void ADoorActor::ActionEvent(FVector BeginLoaction)
 	if (TA1->GetOpenFlag() && TA2->GetOpenFlag() && TA3->GetOpenFlag())
 	{
 		DoorSpriteComp->SetSprite(LoadObject<UPaperSprite>(this,TEXT("/Script/Paper2D.PaperSprite'/Game/Prop/Textures/Sprites/PS_Open.PS_Open'")));
+		DoorSpriteComp->SetCollisionProfileName(TEXT("NoCollision"));
 	}
 	
 	

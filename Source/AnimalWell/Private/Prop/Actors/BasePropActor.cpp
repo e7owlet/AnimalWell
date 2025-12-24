@@ -17,7 +17,7 @@ ABasePropActor::ABasePropActor()
 	RootComponent = CollisionBox;
 
 	//设置碰撞属性，触发器模式，不阻挡玩家但能感应
-	CollisionBox->SetCollisionProfileName(TEXT("Trigger"));
+	CollisionBox->SetCollisionProfileName(TEXT("Prop"));
 
 	//当有东西重叠时，调用OnOverlapBegin
 	CollisionBox->OnComponentBeginOverlap.AddDynamic(this, &ABasePropActor::OnOverlapBegin);

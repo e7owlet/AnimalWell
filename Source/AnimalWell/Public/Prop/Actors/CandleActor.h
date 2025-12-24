@@ -4,22 +4,21 @@
 
 #include "CoreMinimal.h"
 #include "Prop/Actors/BasePropActor.h"
-#include "ToggerActor.generated.h"
+#include "CandleActor.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class ANIMALWELL_API AToggerActor : public ABasePropActor
+class ANIMALWELL_API ACandleActor : public ABasePropActor
 {
 	GENERATED_BODY()
 	bool OpenFlag;
-	public:
-	AToggerActor();
+public:
+	ACandleActor();
 	bool GetOpenFlag(){ return OpenFlag; };
 	void SetOpenFlag(bool InOpenFlag){ OpenFlag = InOpenFlag; };
 	virtual void BeginPlay() override;
-	UPROPERTY(visibleAnywhere, BlueprintReadWrite)
 	class UPaperSpriteComponent *SpriteComp;
 
 	void ActionEvent(FVector BeginLoaction = FVector::ForwardVector * -1) override;

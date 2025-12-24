@@ -27,6 +27,7 @@ public:
 
 	void TracePropForword();
 	void TracePropBack();
-	
+	void TracePropToggle();
+
 	void BindKeyDownEvent();
 };

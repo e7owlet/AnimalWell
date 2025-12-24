@@ -12,6 +12,7 @@ AToggerActor::AToggerActor()
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root0"));
 	SpriteComp = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("SpriteComp0"));
 	SpriteComp->SetupAttachment(RootComponent);
+	SpriteComp->SetCollisionProfileName(TEXT("Prop"));
 }
 
 void AToggerActor::BeginPlay()

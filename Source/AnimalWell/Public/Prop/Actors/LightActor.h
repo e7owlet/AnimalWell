@@ -33,8 +33,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void ActionEvent(FVector BeginLoaction) override;
 	virtual void OnConstruction(const FTransform& Transform) override;
-	
-
+	UPROPERTY(EditAnywhere)
+	FName MName;
 	// 钟摆核心变量
 	float CurrentAngle;     // 当前角度
 	float CurrentSpeed;     // 当前速度
