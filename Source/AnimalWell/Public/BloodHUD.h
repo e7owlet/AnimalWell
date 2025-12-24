@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "FallingStars.h"
 #include "GameFramework/HUD.h"
 #include "Engine/Texture2D.h"
 #include "BloodHUD.generated.h"
@@ -14,6 +15,9 @@ class ANIMALWELL_API ABloodHUD : public AHUD
 public:
     ABloodHUD();
     virtual void DrawHUD() override;
+
+private:
+    FFallingStars FallingStars;
 
 protected:
     UPROPERTY()

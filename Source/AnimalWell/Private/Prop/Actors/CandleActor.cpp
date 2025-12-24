@@ -1,8 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+#include "Prop/Actors/CandleActor.h" // Debug«∞÷√
 #include "PaperSpriteComponent.h"
 #include "PaperSprite.h"
-#include "Prop/Actors/CandleActor.h"
 
 ACandleActor::ACandleActor()
 {

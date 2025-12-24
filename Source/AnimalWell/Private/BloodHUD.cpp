@@ -22,6 +22,9 @@ void ABloodHUD::DrawHUD()
     {
         return;
     }
+    
+    
+    FallingStars.TickAndDraw(Canvas, GetWorld()->GetDeltaSeconds());
 
     const float ScreenW = Canvas->SizeX;
     const float ScreenH = Canvas->SizeY;
