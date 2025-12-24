@@ -15,6 +15,8 @@ ALightActor::ALightActor()
 	LineSpriteComp->SetupAttachment(RootComponent);
 	LightSpriteComp = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("LightSpriteComp0"));
 	LightSpriteComp->SetupAttachment(LineSpriteComp);
+	LineSpriteComp->SetCollisionProfileName(TEXT("Prop"));
+	LightSpriteComp->SetCollisionProfileName(TEXT("Prop"));
 }
 
 // Called when the game starts or when spawned

@@ -75,4 +75,6 @@ private:
 	//角色游戏组件
 	UPROPERTY(VisibleAnywhere, Category = "MyCharacter|Actor Component")
 	class UCharacterGameComponent* CharacterGameComponent;
+	UPROPERTY()
+	class UInteractionPropComponent* InteractionPropComp;
 };
