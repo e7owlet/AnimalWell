@@ -3,13 +3,14 @@
 
 #include "Prop/Components/InteractionPropComponent.h"
 
-#include <filesystem>
 
+#include "Components/WidgetComponent.h"
 #include "GameFramework/Character.h"
-#include "Prop/Actors/BasePropActor.h"
 #include "Prop/Actors/FirecrackerActor.h"
+#include "Prop/Actors/FirecrackerScenePropActor.h"
 #include "Prop/Actors/LightActor.h"
 #include "Prop/Actors/ToggerActor.h"
+#include "Prop/UMG/FirecrackerUserWidget.h"
 
 // Sets default values for this component's properties
 UInteractionPropComponent::UInteractionPropComponent()
@@ -18,7 +19,6 @@ UInteractionPropComponent::UInteractionPropComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
 }
 
 
@@ -27,6 +27,7 @@ void UInteractionPropComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	CharacterInstance = Cast<ACharacter>(GetOwner());
+	ShowFirecrackerCount();
 }
 
 
@@ -37,7 +38,7 @@ void UInteractionPropComponent::TickComponent(float DeltaTime, ELevelTick TickTy
 	TracePropForword();
 	TracePropBack();
 	BindKeyDownEvent();
-	TracePropToggle();
+	TracePropToggleAndFirecracker();
 }
 
 void UInteractionPropComponent::TracePropForword()
@@ -89,7 +90,7 @@ void UInteractionPropComponent::TracePropBack()
 	}
 }
 
-void UInteractionPropComponent::TracePropToggle()
+void UInteractionPropComponent::TracePropToggleAndFirecracker()
 {
 	TArray<FHitResult> OutHits;
 	FCollisionQueryParams Params;
@@ -108,9 +109,14 @@ void UInteractionPropComponent::TracePropToggle()
 		AToggerActor* Togger = Cast<AToggerActor>(HitResult.GetActor());
 		if (Togger)
 		{
-		
-			//FVector Location = Light->GetActorLocation()-CharacterInstance->GetActorLocation().Normalize();
 			Togger->ActionEvent();
+		}
+		AFirecrackerScenePropActor* Firecracker = Cast<AFirecrackerScenePropActor>(HitResult.GetActor());
+		if (Firecracker)
+		{
+			FirecrackerCount ++ ;
+			FirecrackerWidget->SetCrackerCount(FirecrackerCount);
+			Firecracker->ActionEvent();
 		}
 	}
 }
@@ -122,17 +128,63 @@ void UInteractionPropComponent::TracePropToggle()
 void UInteractionPropComponent::BindKeyDownEvent()
 {
 	APlayerController * PC =  Cast<APlayerController>(CharacterInstance->GetController());
-	if (PC && PC->WasInputKeyJustPressed(EKeys::Y)&&PC->WasInputKeyJustPressed(EKeys::D))
+	if (PC&&PC->WasInputKeyJustPressed(EKeys::D))
 	{
-		AFirecrackerActor * Firecracker =  
+		bPressD = true;
+	}
+	if (PC&&PC->WasInputKeyJustReleased(EKeys::D))
+	{
+		bPressD = false;
+	}
+	if (PC&&PC->WasInputKeyJustPressed(EKeys::A))
+	{
+		bPressA = true;
+	}
+	if (PC&&PC->WasInputKeyJustReleased(EKeys::A))
+	{
+		bPressA = false;
+	}
+	
+	if (PC && PC->WasInputKeyJustPressed(EKeys::Y)&&bPressD)
+	{
+		if (FirecrackerCount == 0)
+		{
+			FirecrackerWidget->Play0Animation();
+		}
+		if (FirecrackerCount !=0)
+		{
+			FirecrackerCount--;
+			AFirecrackerActor * Firecracker =  
 			GetWorld()->SpawnActor<AFirecrackerActor>(CharacterInstance->GetActorLocation(),FRotator(30,0,0));
-		Firecracker->ActionEvent(FRotator(30,0,0).Vector());
+			Firecracker->ActionEvent(FRotator(30,0,0).Vector());
+			FirecrackerWidget->SetCrackerCount(FirecrackerCount);
+		}
+		
 	}
-	if (PC && PC->WasInputKeyJustPressed(EKeys::Y)&&PC->WasInputKeyJustPressed(EKeys::A))
+	if (PC && PC->WasInputKeyJustPressed(EKeys::Y)&&bPressA)
 	{
-		AFirecrackerActor * Firecracker =  
-			GetWorld()->SpawnActor<AFirecrackerActor>(CharacterInstance->GetActorLocation(),FRotator(150,0,0));
-		Firecracker->ActionEvent(FRotator(150,0,0).Vector());
+		if (FirecrackerCount == 0)
+		{
+			FirecrackerWidget->Play0Animation();
+		}
+		if (FirecrackerCount > 0)
+		{
+			FirecrackerCount--;
+			AFirecrackerActor * Firecracker =  
+				GetWorld()->SpawnActor<AFirecrackerActor>(CharacterInstance->GetActorLocation(),FRotator(150,0,0));
+			Firecracker->ActionEvent(FRotator(150,0,0).Vector());
+			FirecrackerWidget->SetCrackerCount(FirecrackerCount);
+		}
+		
 	}
+}
+
+void UInteractionPropComponent::ShowFirecrackerCount()
+{
+
+	UClass* Widget = LoadClass<UFirecrackerUserWidget>(this,TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Prop/UMG/UI_Firecracker.UI_Firecracker_C'"));
+	
+	FirecrackerWidget = CreateWidget<UFirecrackerUserWidget>(Cast<APlayerController>(CharacterInstance->GetController()),Widget);
+	FirecrackerWidget->AddToViewport();
 }
 
