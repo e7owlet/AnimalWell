@@ -15,39 +15,41 @@ class ANIMALWELL_API AFirecrackerActor : public ABasePropActor
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
+	//构造函数
 	AFirecrackerActor();
 
 protected:
-	// Called when the game starts or when spawned
+	// 游戏开始时执行
 	virtual void BeginPlay() override;
-	
+	//显然组件
 	UPROPERTY(VisibleAnywhere)
 	class UPaperSpriteComponent* FirecrackerSpriteComp;
+	//渲染资产
 	UPROPERTY(EditAnywhere)
 	class UPaperSprite* FirecrackerSprite;
-	
+	//碰撞检测组件
 	UPROPERTY(VisibleAnywhere)
 	class UCapsuleComponent* FirecrackerCollisionComponent;
-	
+	//移动组件
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UProjectileMovementComponent> MyProjectileMovementComp;
+	//旋转组件
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<URotatingMovementComponent> MyRotatingMovementComp;
-
+	//定时器任务
 	UPROPERTY()
 	FTimerHandle CrackerHandle;
-
+	//销毁函数
 	void DestroyFirecracker();
 
 public:
 	
-	// Called every frame
+	// 每帧调用
 	virtual void Tick(float DeltaTime) override;
-
+	// 构造脚本
 	virtual void OnConstruction(const FTransform& Transform) override;
 
-	
+	//基类执行函数重写
 	virtual void ActionEvent(FVector BeginLoaction = FVector::ForwardVector * -1) override;
 	
 };

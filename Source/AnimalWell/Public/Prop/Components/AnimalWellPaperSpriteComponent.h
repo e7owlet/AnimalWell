@@ -14,5 +14,6 @@ class ANIMALWELL_API UAnimalWellPaperSpriteComponent : public UPaperSpriteCompon
 {
 	GENERATED_BODY()
 public:
+	//重写组件动态设置材质值
 	void SetScaleParameterValueOnMaterials(const FName ParameterName, const float ParameterValue);
 };

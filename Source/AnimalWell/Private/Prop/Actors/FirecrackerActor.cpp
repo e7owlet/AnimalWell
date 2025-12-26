@@ -16,32 +16,46 @@ AFirecrackerActor::AFirecrackerActor()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	//æ ¹ç»„ä»¶ã€æ¸²æŸ“ç»„ä»¶åˆå§‹åŒ–
+	//¸ù×é¼ş³õÊ¼»¯
 	RootComponent = CreateDefaultSubobject<USceneComponent>("Root");
+	//¸ùäÖÈ¾×é¼ş³õÊ¼»¯
 	FirecrackerSpriteComp = CreateDefaultSubobject<UPaperSpriteComponent>("FirecrackerSpriteComp");
+	//äÖÈ¾×é¼ş°ó¶¨µ½¸ù×é¼şÉÏ
 	FirecrackerSpriteComp->SetupAttachment(this->RootComponent);
+	//ÉèÖÃäÖÈ¾´óĞ¡
 	FirecrackerSpriteComp->SetRelativeScale3D(FVector(0.2f));
+	//¹Ø±ÕäÖÈ¾×é¼şµÄÅö×²
 	FirecrackerSpriteComp->SetCollisionProfileName(TEXT("NoCollision"));
 
-	//ç¢°æ’æ£€æµ‹åˆå§‹åŒ–ã€ç¢°æ’é¢„è®¾
+	//´´½¨Åö×²×é¼ş¶ÔÏó
 	FirecrackerCollisionComponent = CreateDefaultSubobject<UCapsuleComponent>("FirecrackerCollisionComponent");
+	//°ó¶¨Åö×²×é¼şµ½äÖÈ¾×é¼şÉÏ
 	FirecrackerCollisionComponent->SetupAttachment(this->FirecrackerSpriteComp);
+	//ÉèÖÃÅö×²¼ì²â¿ÉÒÔºÍËùÓĞ×é¼ş·¢ÉúÖØµş
 	FirecrackerCollisionComponent->SetCollisionProfileName(TEXT("OverlapAll"));
-	//èƒ¶å›Šä½“å°ºå¯¸ï¼ˆå¯ä»¥è‡ªå·±è°ƒï¼‰
+	//½ºÄÒÌå°ë¾¶´óĞ¡
 	FirecrackerCollisionComponent->SetCapsuleRadius(32.f);
+	//ÉèÖÃ½ºÄÒÌå°ë¸ß
 	FirecrackerCollisionComponent->SetCapsuleHalfHeight(64.f);
-	FirecrackerCollisionComponent->bHiddenInGame = true;
+	//½ºÄÒÌåÔÚÓÎÏ·¿ªÊ¼ºó²»¿É¼û
+	FirecrackerCollisionComponent->bHiddenInGame = false;
 
-	//ç©ºä¸­ç¿»è½¬ç»„ä»¶åˆå§‹åŒ–ï¼ŒæŠ›å‡ºæ—¶æ¿€æ´»
+	//³õÊ¼»¯·­×ª×é¼ş
 	MyRotatingMovementComp = CreateDefaultSubobject<URotatingMovementComponent>("RotatingMovementComponent");
+	//ÉèÖÃ·­×ª×é¼şĞı×ªËÙ¶È
 	MyRotatingMovementComp->RotationRate = FRotator(500.f,0,0);
+	//ÉèÖÃ¼¤»î×´Ì¬
 	MyRotatingMovementComp->bAutoActivate = false;
 
-	//æŠ›ç‰©çº¿è¿åŠ¨ç»„ä»¶åˆå§‹åŒ–,æŠ›å‡ºæ—¶æ¿€æ´»
+	//´´½¨Å×ÎïÏßÒÆ¶¯×é¼ş
 	MyProjectileMovementComp = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovementComponent");
+	//³õÊ¼ËÙ¶ÈÎª500
 	MyProjectileMovementComp->InitialSpeed = 500.f;
+	//×î´óÒÆ¶¯ËÙ¶ÈÎª500
 	MyProjectileMovementComp->MaxSpeed = 500.f;
+	//ÖØÁ¦Ó°ÏìÏµÊıÎª1 
 	MyProjectileMovementComp->ProjectileGravityScale = 1.f;
+	//ÉèÖÃ×é¼şÎª²»¼¤»î
 	MyProjectileMovementComp->bAutoActivate = false;
 	
 }
@@ -53,19 +67,26 @@ void AFirecrackerActor::BeginPlay()
 
 }
 
-//çˆ†ç‚¸é”€æ¯
+//±¬Õ¨Ïú»Ù
 void AFirecrackerActor::DestroyFirecracker()
 {
+	//¹Ø±ÕĞı×ª×é¼ş
 	MyRotatingMovementComp->Deactivate();
+	//¹Ø±ÕÒÆ¶¯×é¼ş
 	MyProjectileMovementComp->Deactivate();
+	//¼ÓÔØ±¬Õ¨Ğ§¹ûÃÀÊõ×Ê²ú
 	UParticleSystem * Boom = LoadObject<UParticleSystem>(this,TEXT("/Script/Engine.ParticleSystem'/Game/Prop/Particles/PS_Explosion_Air_Big_03.PS_Explosion_Air_Big_03'"));
+	//´´½¨±¬ÕÕĞ§¹ûÃÀÊõ×Ê²ú
 	UGameplayStatics::SpawnEmitterAtLocation(this,Boom,GetActorLocation());
-	
+	//²éÕÒµØÍ¼ÖĞµÄÀ¶¹í
 	AGhostActor* Ghost = Cast<AGhostActor>( UGameplayStatics::GetActorOfClass(this,AGhostActor::StaticClass()));
+	//ÅĞ¶ÏÀ¶¹íÓë½ÇÉ«µÄ¾àÀë
 	if (Ghost&&(GetActorLocation() - Ghost->GetActorLocation()).Length() < 150.f)
 	{
+		//Ïú»ÙÀ¶¹í
 		Ghost->Destroy();
 	}
+	//Ïú»ÙÍ¶ÖÀÎï±¬Öñ
 	Destroy();
 }	
 
@@ -79,12 +100,16 @@ void AFirecrackerActor::Tick(float DeltaTime)
 void AFirecrackerActor::OnConstruction(const FTransform& Transform)
 {
 	Super::OnConstruction(Transform);
+	//ÅĞ¶ÏäÖÈ¾×Ê²úÊÇ·ñÒÑ¾­¼ÓÔØ
 	if (!FirecrackerSprite)
 	{
+		//Ã»ÓĞ¼ÓÔØµÄ»° ¼ÓÔØ×Ê²ú
 		FirecrackerSprite = LoadObject<UPaperSprite>(this,TEXT("/Script/Paper2D.PaperSprite'/Game/Prop/Textures/Sprites/PS_Cracker.PS_Cracker'"));
 	}
+	//Èç¹û×Ê²ú²»Îª¿Õ
 	if (FirecrackerSprite)
 	{
+		//¸øäÖÈ¾×é¼şÉèÖÃäÖÈ¾×Ê²ú
 		FirecrackerSpriteComp->SetSprite(FirecrackerSprite);
 	}
 }
@@ -92,13 +117,14 @@ void AFirecrackerActor::OnConstruction(const FTransform& Transform)
 
 void AFirecrackerActor::ActionEvent(FVector BeginLoaction)
 {
+	//ÉèÖÃµ±Ç°ÒÆ¶¯µÄ·½Ïò
 	SetActorRotation(BeginLoaction.Rotation());
 	
-
+	//¼¤»îĞı×ª×é¼ş
 	MyRotatingMovementComp->Activate();
-	
+	//¼¤»îÒÆ¶¯×é¼ş
 	MyProjectileMovementComp->Activate();
-
+	//¶¨Ê±Æ÷¼ÇÂ¼±¬Öñ±¬Õ¨Ê±¼ä
 	GetWorld()->GetTimerManager().SetTimer(CrackerHandle,this,&AFirecrackerActor::DestroyFirecracker,0.5f,false);
 	
 }

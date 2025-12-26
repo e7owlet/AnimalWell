@@ -17,31 +17,38 @@ class ANIMALWELL_API ALightActor : public ABasePropActor
 	
 public:
 	
-	// Sets default values for this actor's properties
+	//灯的构造函数
 	ALightActor();
 
 protected:
-	// Called when the game starts or when spawned
+	// 游戏开始时执行
 	virtual void BeginPlay() override;
-
+	//等线的渲染组件
 	class UPaperSpriteComponent* LineSpriteComp;
+	//灯泡的渲染组件
 	class UPaperSpriteComponent* LightSpriteComp;
+	//碰撞后旋转角度的目标值
 	FRotator TargetRotator;
+	//移动速率曲线
 	FFloatCurve* MoveCurve;
 public:	
-	// Called every frame
+	// Actor每帧执行函数
 	virtual void Tick(float DeltaTime) override;
+	// 触发交互函数
 	virtual void ActionEvent(FVector BeginLoaction) override;
+	// 构造脚本函数
 	virtual void OnConstruction(const FTransform& Transform) override;
+	//光照通道设置
 	UPROPERTY(EditAnywhere)
 	FName MName;
 
-	float CurrentAngle;   
-	float CurrentSpeed;    
-	float MaxSwingAngle = 30.f;    
-    
-	float SwingAngle;   
-	float SwingSpeed;   
+	// 钟摆核心变量
+	float CurrentAngle;// 当前角度
+	float CurrentSpeed;// 当前速度
+	float MaxSwingAngle = 30.f;     // 最大摆动角度
+    //
+	float SwingAngle;   // 当前角度
+	float SwingSpeed;   // 当前速度
     
 	
 

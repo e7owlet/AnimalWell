@@ -7,7 +7,7 @@
 #include "PaperFlipbook.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "GhostActor.generated.h"
-
+//用枚举表示蓝鬼状态
 UENUM()
 enum class EGhostState : uint8
 {
@@ -30,10 +30,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-
+	//渲染资产组件
 	UPROPERTY(VisibleAnywhere)
 	class UPaperFlipbookComponent* RenderGhost;
-
+	//渲染资产
 	UPROPERTY(EditAnywhere,Category = "Ghost|Animation")
 	UPaperFlipbook* GhostFlipbook_Idle;
 	UPROPERTY(EditAnywhere,Category = "Ghost|Animation")
@@ -43,11 +43,11 @@ protected:
 	UPROPERTY(EditAnywhere,Category = "Ghost|Animation")
 	UPaperFlipbook* GhostFlipbook_Dash;
 
-
+	//胶囊体碰撞, 用于拾取和爆炸的检测
 	UPROPERTY(VisibleAnywhere)
 	class UCapsuleComponent* GhostCollisionComponent;
 
-
+	//移动组件
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UProjectileMovementComponent> MyMovementComponent;
 
@@ -56,21 +56,22 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void OnConstruction(const FTransform& Transform) override;
 
-
+	//记录蓝鬼当前状态
 	UPROPERTY()
 	EGhostState CurrentGhostState;
-
+	//修改蓝鬼状态
 	void ChangeGhostState(EGhostState NewGhostState);
 	UPaperFlipbook* GetGhostFlipbook(EGhostState GhostState);
 
 
-
+	//基类的响应函数
 	virtual void ActionEvent(FVector BeginLoaction = FVector::ForwardVector * -1) override;
-
+	//更新位置
 	UFUNCTION()
 	void UpdateTargetLocation();
-
+	//移动函数
 	void GhostMove(FVector Destination);
+	//角色的位置
 	UPROPERTY()
 	int32 MoveDirection;
 

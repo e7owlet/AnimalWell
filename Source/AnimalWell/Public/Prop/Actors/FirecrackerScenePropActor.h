@@ -14,11 +14,16 @@ class ANIMALWELL_API AFirecrackerScenePropActor : public ABasePropActor
 {
 	GENERATED_BODY()
 	public:
+	//构造函数
 	AFirecrackerScenePropActor();
+	//渲染组件
 	UPROPERTY(VisibleAnywhere)
 	class UPaperSpriteComponent* FirecrackerSpriteComp;
+	//基类触发函数重写
 	virtual void ActionEvent(FVector BeginLoaction = FVector::ForwardVector * -1) override;
+	//构造脚本函数
 	virtual  void OnConstruction(const FTransform& Transform);
+	//渲染资产设置
 	UPROPERTY(EditAnywhere)
 	class UPaperSprite* FirecrackerSprite;
 };
